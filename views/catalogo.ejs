@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo</title>
+</head>
+<body>
+
+    <h1>Catálogo de libros</h1>
+
+    <p>
+        Bienvenido,
+        <strong><%= usuario.nombre %></strong>
+    </p>
+
+    <p>
+        Rol:
+        <strong><%= usuario.rol %></strong>
+    </p>
+
+    <p>El catálogo está protegido y requiere iniciar sesión.</p>
+
+    <form action="/library/logout" method="POST">
+        <button type="submit">
+            Cerrar sesión
+        </button>
+    </form>
+
+</body>
+</html>

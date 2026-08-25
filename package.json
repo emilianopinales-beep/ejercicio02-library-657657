@@ -1,0 +1,21 @@
+{
+  "name": "library",
+  "version": "1.0.0",
+  "description": "Aplicacion web monolitica para una libreria en linea",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Emiliano Pascual Pinales Sanchez - 657657",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.2.2",
+    "ejs": "^3.1.10",
+    "express": "^5.2.1",
+    "express-session": "^1.19.0",
+    "multer": "^2.0.2",
+    "pg": "^8.23.0"
+  }
+}

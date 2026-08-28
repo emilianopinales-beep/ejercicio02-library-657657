@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Catálogo</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Catálogo de libros</title>
 </head>
+
 <body>
 
     <h1>Catálogo de libros</h1>
@@ -19,13 +25,145 @@
         <strong><%= usuario.rol %></strong>
     </p>
 
-    <p>El catálogo está protegido y requiere iniciar sesión.</p>
+    <hr>
 
-    <form action="/library/logout" method="POST">
+    <h2>Buscar libro</h2>
+
+    <form
+        action="/library/catalogo"
+        method="GET"
+    >
+
+        <label for="busqueda">
+            Título o ISBN:
+        </label>
+
+        <input
+            type="text"
+            id="busqueda"
+            name="busqueda"
+            value="<%= busqueda %>"
+        >
+
+        <button type="submit">
+            Buscar
+        </button>
+
+        <a href="/library/catalogo">
+            Mostrar todos
+        </a>
+
+    </form>
+
+    <br>
+
+    <% if (mensaje) { %>
+
+        <p>
+            <strong><%= mensaje %></strong>
+        </p>
+
+    <% } %>
+
+    <% if (libros.length === 0) { %>
+
+        <p>No se encontraron libros.</p>
+
+    <% } else { %>
+
+        <p>
+            Libros encontrados:
+            <strong><%= libros.length %></strong>
+        </p>
+
+        <table border="1" cellpadding="6">
+
+            <thead>
+
+                <tr>
+                    <th>ID</th>
+                    <th>ISBN</th>
+                    <th>Título</th>
+                    <th>Año</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Formato</th>
+                    <th>Categoría</th>
+                    <th>Autores</th>
+                    <th>Géneros</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <% libros.forEach(libro => { %>
+
+                    <tr>
+
+                        <td>
+                            <%= libro.libro_id %>
+                        </td>
+
+                        <td>
+                            <%= libro.isbn %>
+                        </td>
+
+                        <td>
+                            <%= libro.titulo %>
+                        </td>
+
+                        <td>
+                            <%= libro.anio_publicacion %>
+                        </td>
+
+                        <td>
+                            $<%= Number(libro.precio).toFixed(2) %>
+                        </td>
+
+                        <td>
+                            <%= libro.stock %>
+                        </td>
+
+                        <td>
+                            <%= libro.formato %>
+                        </td>
+
+                        <td>
+                            <%= libro.categoria %>
+                        </td>
+
+                        <td>
+                            <%= libro.autores %>
+                        </td>
+
+                        <td>
+                            <%= libro.generos %>
+                        </td>
+
+                    </tr>
+
+                <% }); %>
+
+            </tbody>
+
+        </table>
+
+    <% } %>
+
+    <br>
+
+    <form
+        action="/library/logout"
+        method="POST"
+    >
+
         <button type="submit">
             Cerrar sesión
         </button>
+
     </form>
 
 </body>
+
 </html>

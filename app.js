@@ -10,7 +10,7 @@ const session = require('express-session');
 const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
-const { requiereSesion } = require('./middleware/auth');
+const catalogRoutes = require('./routes/catalogRoutes');
 
 const app = express();
 
@@ -53,7 +53,6 @@ app.use(
             'sesion_desarrollo',
 
         resave: false,
-
         saveUninitialized: false,
 
         cookie: {
@@ -74,7 +73,7 @@ app.get(BASE_PATH, (req, res) => {
 });
 
 // =========================================================
-// AUTENTICACION
+// RUTAS
 // =========================================================
 
 app.use(
@@ -82,24 +81,9 @@ app.use(
     authRoutes
 );
 
-// =========================================================
-// CATALOGO PROTEGIDO
-// =========================================================
-
-app.get(
-    BASE_PATH + '/catalogo',
-    requiereSesion,
-    (req, res) => {
-
-        res.render(
-            'catalogo',
-            {
-                usuario:
-                    req.session.usuario
-            }
-        );
-
-    }
+app.use(
+    BASE_PATH,
+    catalogRoutes
 );
 
 // =========================================================

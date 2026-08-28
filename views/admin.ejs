@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Panel de administración</title>
+
+</head>
+
+<body>
+
+    <h1>Panel de administración</h1>
+
+    <p>
+        Bienvenido,
+        <strong><%= usuario.nombre %></strong>
+    </p>
+
+    <p>
+        Rol:
+        <strong><%= usuario.rol %></strong>
+    </p>
+
+    <hr>
+
+    <h2>Administración de la librería</h2>
+
+    <p>
+        Desde este panel se administran los registros del sistema.
+    </p>
+
+    <ul>
+
+        <li>
+            <a href="/library/admin/libros">
+                Libros
+            </a>
+        </li>
+
+        <li>
+            Autores
+        </li>
+
+        <li>
+            Géneros
+        </li>
+
+        <li>
+            Formatos
+        </li>
+
+        <li>
+            Categorías
+        </li>
+
+        <li>
+            Conceptos
+        </li>
+
+        <li>
+            Imágenes
+        </li>
+
+        <li>
+            Usuarios
+        </li>
+
+    </ul>
+
+    <hr>
+
+    <p>
+        <a href="/library/catalogo">
+            Ir al catálogo
+        </a>
+    </p>
+
+    <form
+        action="/library/logout"
+        method="POST"
+    >
+
+        <button type="submit">
+            Cerrar sesión
+        </button>
+
+    </form>
+
+</body>
+
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Administrar libros</title>
+
+</head>
+
+<body>
+
+    <h1>Administrar libros</h1>
+
+    <p>
+        Administrador:
+        <strong><%= usuario.nombre %></strong>
+    </p>
+
+    <p>
+        <a href="/library/admin">
+            Volver al panel
+        </a>
+    </p>
+
+    <p>
+        <a href="/library/admin/libros/nuevo">
+            Nuevo libro
+        </a>
+    </p>
+
+    <hr>
+
+    <h2>Libros registrados</h2>
+
+    <table border="1" cellpadding="6">
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>ISBN</th>
+                <th>Título</th>
+                <th>Año</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Formato</th>
+                <th>Categoría</th>
+                <th>Autores</th>
+                <th>Géneros</th>
+                <th>Acciones</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <% libros.forEach(libro => { %>
+
+                <tr>
+
+                    <td>
+                        <%= libro.libro_id %>
+                    </td>
+
+                    <td>
+                        <%= libro.isbn %>
+                    </td>
+
+                    <td>
+                        <%= libro.titulo %>
+                    </td>
+
+                    <td>
+                        <%= libro.anio_publicacion %>
+                    </td>
+
+                    <td>
+                        $<%= libro.precio %>
+                    </td>
+
+                    <td>
+                        <%= libro.stock %>
+                    </td>
+
+                    <td>
+                        <%= libro.formato %>
+                    </td>
+
+                    <td>
+                        <%= libro.categoria %>
+                    </td>
+
+                    <td>
+                        <%= libro.autores %>
+                    </td>
+
+                    <td>
+                        <%= libro.generos %>
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="/library/admin/libros/<%= libro.libro_id %>/editar"
+                        >
+                            Editar
+                        </a>
+
+                        <br><br>
+
+                        <form
+                            action="/library/admin/libros/<%= libro.libro_id %>/eliminar"
+                            method="POST"
+                            onsubmit="return confirm('¿Seguro que deseas eliminar este libro?');"
+                        >
+
+                            <button type="submit">
+                                Eliminar
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+            <% }) %>
+
+        </tbody>
+
+    </table>
+
+    <hr>
+
+    <p>
+        <a href="/library/admin">
+            Volver al panel de administración
+        </a>
+    </p>
+
+    <form
+        action="/library/logout"
+        method="POST"
+    >
+
+        <button type="submit">
+            Cerrar sesión
+        </button>
+
+    </form>
+
+</body>
+
+</html>

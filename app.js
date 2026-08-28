@@ -1,5 +1,5 @@
 // EJERCICIO GUIADO 02
-// Aplicacion web monolitica - Libreria en linea
+// Aplicacion web monolitica de biblioteca
 // Alumno: Emiliano Pascual Pinales Sanchez
 // Matricula: 657657
 
@@ -11,12 +11,14 @@ const path = require('path');
 
 const authRoutes = require('./routes/authRoutes');
 const catalogRoutes = require('./routes/catalogRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
 const PORT = process.env.PORT || 3000;
 const HOST = '127.0.0.1';
 const BASE_PATH = '/library';
+
 
 // =========================================================
 // CONFIGURACION DE EJS
@@ -29,48 +31,65 @@ app.set(
     path.join(__dirname, 'views')
 );
 
+
 // =========================================================
 // MIDDLEWARE
 // =========================================================
 
 app.use(
     express.urlencoded({
-        extended: false
+        extended: true
     })
 );
 
 app.use(
-    BASE_PATH + '/public',
     express.static(
         path.join(__dirname, 'public')
     )
 );
 
 app.use(
-    session({
-        secret:
-            process.env.SESSION_SECRET ||
-            'sesion_desarrollo',
+    BASE_PATH + '/uploads',
+    express.static(
+        path.join(__dirname, 'uploads')
+    )
+);
 
+
+// =========================================================
+// SESIONES
+// =========================================================
+
+app.use(
+    session({
+        secret: process.env.SESSION_SECRET || 'session_library',
         resave: false,
         saveUninitialized: false,
-
         cookie: {
-            httpOnly: true,
-            sameSite: 'lax'
+            httpOnly: true
         }
     })
 );
+
 
 // =========================================================
 // PAGINA PRINCIPAL
 // =========================================================
 
-app.get(BASE_PATH, (req, res) => {
+app.get(
+    BASE_PATH,
+    (req, res) => {
 
-    res.render('inicio');
+        res.render(
+            'inicio',
+            {
+                usuario: req.session.usuario || null
+            }
+        );
 
-});
+    }
+);
+
 
 // =========================================================
 // RUTAS
@@ -86,17 +105,26 @@ app.use(
     catalogRoutes
 );
 
+app.use(
+    BASE_PATH,
+    adminRoutes
+);
+
+
 // =========================================================
-// ERROR 404
+// RUTA NO ENCONTRADA
 // =========================================================
 
-app.use((req, res) => {
+app.use(
+    (req, res) => {
 
-    res.status(404).send(
-        'Pagina no encontrada'
-    );
+        res.status(404).send(
+            'Pagina no encontrada.'
+        );
 
-});
+    }
+);
+
 
 // =========================================================
 // INICIAR SERVIDOR

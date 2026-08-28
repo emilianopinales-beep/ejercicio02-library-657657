@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Editar libro</title>
+
+</head>
+
+<body>
+
+    <h1>Editar libro</h1>
+
+    <p>
+        Administrador:
+        <strong><%= usuario.nombre %></strong>
+    </p>
+
+    <p>
+        <a href="/library/admin/libros">
+            Volver a libros
+        </a>
+    </p>
+
+    <hr>
+
+    <form
+        action="/library/admin/libros/<%= libro.libro_id %>/editar"
+        method="POST"
+    >
+
+        <p>
+            <label for="isbn">
+                ISBN:
+            </label>
+            <br>
+
+            <input
+                type="text"
+                id="isbn"
+                name="isbn"
+                maxlength="20"
+                value="<%= libro.isbn %>"
+                required
+            >
+        </p>
+
+        <p>
+            <label for="titulo">
+                Título:
+            </label>
+            <br>
+
+            <input
+                type="text"
+                id="titulo"
+                name="titulo"
+                maxlength="200"
+                value="<%= libro.titulo %>"
+                required
+            >
+        </p>
+
+        <p>
+            <label for="anio_publicacion">
+                Año de publicación:
+            </label>
+            <br>
+
+            <input
+                type="number"
+                id="anio_publicacion"
+                name="anio_publicacion"
+                value="<%= libro.anio_publicacion %>"
+                required
+            >
+        </p>
+
+        <p>
+            <label for="precio">
+                Precio:
+            </label>
+            <br>
+
+            <input
+                type="number"
+                id="precio"
+                name="precio"
+                min="0"
+                step="0.01"
+                value="<%= libro.precio %>"
+                required
+            >
+        </p>
+
+        <p>
+            <label for="stock">
+                Stock:
+            </label>
+            <br>
+
+            <input
+                type="number"
+                id="stock"
+                name="stock"
+                min="0"
+                value="<%= libro.stock %>"
+                required
+            >
+        </p>
+
+        <p>
+            <label for="formato_id">
+                Formato:
+            </label>
+            <br>
+
+            <select
+                id="formato_id"
+                name="formato_id"
+                required
+            >
+
+                <% formatos.forEach(formato => { %>
+
+                    <option
+                        value="<%= formato.formato_id %>"
+                        <%= libro.formato_id === formato.formato_id ? 'selected' : '' %>
+                    >
+                        <%= formato.nombre %>
+                    </option>
+
+                <% }) %>
+
+            </select>
+        </p>
+
+        <p>
+            <label for="categoria_id">
+                Categoría:
+            </label>
+            <br>
+
+            <select
+                id="categoria_id"
+                name="categoria_id"
+                required
+            >
+
+                <% categorias.forEach(categoria => { %>
+
+                    <option
+                        value="<%= categoria.categoria_id %>"
+                        <%= libro.categoria_id === categoria.categoria_id ? 'selected' : '' %>
+                    >
+                        <%= categoria.nombre %>
+                    </option>
+
+                <% }) %>
+
+            </select>
+        </p>
+
+        <button type="submit">
+            Guardar cambios
+        </button>
+
+    </form>
+
+</body>
+
+</html>

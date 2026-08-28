@@ -38,8 +38,8 @@ Internamente el proyecto está organizado por módulos:
 - `views/`: vistas EJS.
 - `public/`: recursos públicos.
 - `uploads/`: imágenes cargadas.
-- `db/`: scripts SQL.
-- `data/`: esquema principal de base de datos.
+- `db/`: scripts SQL completos.
+- `data/`: esquema y datos iniciales.
 - `docs/`: documentación.
 - `test/`: pruebas.
 - `evidencias/`: evidencias del desarrollo.

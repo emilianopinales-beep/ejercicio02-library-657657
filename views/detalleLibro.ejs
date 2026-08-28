@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Detalle del libro</title>
+</head>
+
+<body>
+
+    <h1>Detalle del libro</h1>
+
+    <p>
+        Usuario:
+        <strong><%= usuario.nombre %></strong>
+    </p>
+
+    <hr>
+
+    <h2><%= libro.titulo %></h2>
+
+    <p>
+        <strong>ISBN:</strong>
+        <%= libro.isbn %>
+    </p>
+
+    <p>
+        <strong>Año de publicación:</strong>
+        <%= libro.anio_publicacion %>
+    </p>
+
+    <p>
+        <strong>Precio:</strong>
+        $<%= Number(libro.precio).toFixed(2) %>
+    </p>
+
+    <p>
+        <strong>Stock:</strong>
+        <%= libro.stock %>
+    </p>
+
+    <p>
+        <strong>Formato:</strong>
+        <%= libro.formato %>
+    </p>
+
+    <p>
+        <strong>Categoría:</strong>
+        <%= libro.categoria %>
+    </p>
+
+    <p>
+        <strong>Autores:</strong>
+        <%= libro.autores %>
+    </p>
+
+    <p>
+        <strong>Géneros:</strong>
+        <%= libro.generos %>
+    </p>
+
+    <hr>
+
+    <h2>Conceptos asociados</h2>
+
+    <% if (conceptos.length === 0) { %>
+
+        <p>
+            Este libro no tiene conceptos asociados.
+        </p>
+
+    <% } else { %>
+
+        <% conceptos.forEach(concepto => { %>
+
+            <h3>
+                <%= concepto.nombre %>
+            </h3>
+
+            <p>
+                <%= concepto.definicion %>
+            </p>
+
+        <% }); %>
+
+    <% } %>
+
+    <hr>
+
+    <a href="/library/catalogo">
+        Volver al catálogo
+    </a>
+
+    <br><br>
+
+    <form
+        action="/library/logout"
+        method="POST"
+    >
+        <button type="submit">
+            Cerrar sesión
+        </button>
+    </form>
+
+</body>
+
+</html>

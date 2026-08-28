@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -91,6 +92,7 @@
                     <th>Categoría</th>
                     <th>Autores</th>
                     <th>Géneros</th>
+                    <th>Acciones</th>
                 </tr>
 
             </thead>
@@ -139,6 +141,12 @@
 
                         <td>
                             <%= libro.generos %>
+                        </td>
+
+                        <td>
+                            <a href="/library/libro/<%= libro.libro_id %>">
+                                Ver detalle
+                            </a>
                         </td>
 
                     </tr>

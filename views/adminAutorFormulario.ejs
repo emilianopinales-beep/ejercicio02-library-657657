@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        <%= autor ? 'Editar autor' : 'Nuevo autor' %>
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="/library/styles.css"
+    >
+
+</head>
+
+<body>
+
+    <h1>
+        <%= autor ? 'Editar autor' : 'Nuevo autor' %>
+    </h1>
+
+    <p>
+        Administrador:
+        <strong><%= usuario.nombre %></strong>
+    </p>
+
+    <p>
+        <a href="/library/admin/autores">
+            Volver a autores
+        </a>
+    </p>
+
+    <hr>
+
+    <form
+        action="<%=
+            autor
+                ? '/library/admin/autores/' + autor.autor_id + '/editar'
+                : '/library/admin/autores/nuevo'
+        %>"
+        method="POST"
+    >
+
+        <p>
+
+            <label for="nombre">
+                Nombre:
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                maxlength="150"
+                value="<%= autor ? autor.nombre : '' %>"
+                required
+            >
+
+        </p>
+
+        <p>
+
+            <label for="nacionalidad">
+                Nacionalidad:
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="nacionalidad"
+                name="nacionalidad"
+                maxlength="100"
+                value="<%= autor && autor.nacionalidad ? autor.nacionalidad : '' %>"
+            >
+
+        </p>
+
+        <button type="submit">
+
+            <%= autor ? 'Guardar cambios' : 'Crear autor' %>
+
+        </button>
+
+    </form>
+
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 // EJERCICIO GUIADO 02
-// Servicio del catalogo de libros
+// Servicios del catalogo
 // Alumno: Emiliano Pascual Pinales Sanchez
 // Matricula: 657657
 
@@ -7,55 +7,66 @@ const pool = require('../config/db');
 
 
 // =========================================================
-// CONSULTAR CATALOGO COMPLETO
+// OBTENER CATALOGO
 // =========================================================
 
 async function obtenerCatalogo() {
 
     const consulta = `
         SELECT
-            libro_id,
-            isbn,
-            titulo,
-            anio_publicacion,
-            precio,
-            stock,
-            formato,
-            categoria,
-            autores,
-            generos
-        FROM vw_catalogo_libros
-        ORDER BY titulo
+            c.libro_id,
+            c.isbn,
+            c.titulo,
+            c.anio_publicacion,
+            c.precio,
+            c.stock,
+            c.formato,
+            c.categoria,
+            c.autores,
+            c.generos,
+            p.ruta_relativa AS portada,
+            p.texto_alt AS portada_alt
+        FROM vw_catalogo_libros c
+        LEFT JOIN vw_portadas_libros p
+            ON p.libro_id = c.libro_id
+        ORDER BY c.titulo;
     `;
 
-    const resultado = await pool.query(consulta);
+    const resultado = await pool.query(
+        consulta
+    );
 
     return resultado.rows;
 }
 
 
 // =========================================================
-// BUSCAR POR TITULO O ISBN
+// BUSCAR LIBROS
 // =========================================================
 
 async function buscarLibros(busqueda) {
 
     const consulta = `
         SELECT
-            libro_id,
-            isbn,
-            titulo,
-            anio_publicacion,
-            precio,
-            stock,
-            formato,
-            categoria,
-            autores,
-            generos
-        FROM vw_catalogo_libros
-        WHERE titulo ILIKE '%' || $1 || '%'
-           OR isbn = $1
-        ORDER BY titulo
+            c.libro_id,
+            c.isbn,
+            c.titulo,
+            c.anio_publicacion,
+            c.precio,
+            c.stock,
+            c.formato,
+            c.categoria,
+            c.autores,
+            c.generos,
+            p.ruta_relativa AS portada,
+            p.texto_alt AS portada_alt
+        FROM vw_catalogo_libros c
+        LEFT JOIN vw_portadas_libros p
+            ON p.libro_id = c.libro_id
+        WHERE
+            c.titulo ILIKE '%' || $1 || '%'
+            OR c.isbn = $1
+        ORDER BY c.titulo;
     `;
 
     const resultado = await pool.query(
@@ -68,25 +79,29 @@ async function buscarLibros(busqueda) {
 
 
 // =========================================================
-// OBTENER DETALLE DE UN LIBRO
+// OBTENER DETALLE DE LIBRO
 // =========================================================
 
 async function obtenerDetalleLibro(libroId) {
 
     const consulta = `
         SELECT
-            libro_id,
-            isbn,
-            titulo,
-            anio_publicacion,
-            precio,
-            stock,
-            formato,
-            categoria,
-            autores,
-            generos
-        FROM vw_catalogo_libros
-        WHERE libro_id = $1
+            c.libro_id,
+            c.isbn,
+            c.titulo,
+            c.anio_publicacion,
+            c.precio,
+            c.stock,
+            c.formato,
+            c.categoria,
+            c.autores,
+            c.generos,
+            p.ruta_relativa AS portada,
+            p.texto_alt AS portada_alt
+        FROM vw_catalogo_libros c
+        LEFT JOIN vw_portadas_libros p
+            ON p.libro_id = c.libro_id
+        WHERE c.libro_id = $1;
     `;
 
     const resultado = await pool.query(
@@ -108,12 +123,45 @@ async function obtenerConceptosLibro(libroId) {
         SELECT
             c.concepto_id,
             c.nombre,
-            lc.definicion
+            lc.definicion,
+            lc.referencia
         FROM libro_concepto lc
         INNER JOIN concepto c
             ON c.concepto_id = lc.concepto_id
         WHERE lc.libro_id = $1
-        ORDER BY c.nombre
+        ORDER BY c.nombre;
+    `;
+
+    const resultado = await pool.query(
+        consulta,
+        [libroId]
+    );
+
+    return resultado.rows;
+}
+
+
+// =========================================================
+// OBTENER IMAGENES DEL LIBRO
+// =========================================================
+
+async function obtenerImagenesLibro(libroId) {
+
+    const consulta = `
+        SELECT
+            imagen_id,
+            libro_id,
+            nombre_archivo,
+            ruta_relativa,
+            mime_type,
+            tamanio_bytes,
+            es_portada,
+            texto_alt
+        FROM vw_libro_imagenes
+        WHERE libro_id = $1
+        ORDER BY
+            es_portada DESC,
+            imagen_id;
     `;
 
     const resultado = await pool.query(
@@ -129,5 +177,6 @@ module.exports = {
     obtenerCatalogo,
     buscarLibros,
     obtenerDetalleLibro,
-    obtenerConceptosLibro
+    obtenerConceptosLibro,
+    obtenerImagenesLibro
 };

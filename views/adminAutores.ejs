@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Administrar autores</title>
+
+    <link rel="stylesheet" href="/library/styles.css">
+
+</head>
+
+<body>
+
+    <h1>Administrar autores</h1>
+
+    <p>
+        Administrador:
+        <strong><%= usuario.nombre %></strong>
+    </p>
+
+    <p>
+        <a href="/library/admin">
+            Volver al panel
+        </a>
+    </p>
+
+    <p>
+        <a href="/library/admin/autores/nuevo">
+            Nuevo autor
+        </a>
+    </p>
+
+    <hr>
+
+    <h2>Autores registrados</h2>
+
+    <table border="1" cellpadding="6">
+
+        <thead>
+
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Nacionalidad</th>
+                <th>Acciones</th>
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            <% autores.forEach(autor => { %>
+
+                <tr>
+
+                    <td>
+                        <%= autor.autor_id %>
+                    </td>
+
+                    <td>
+                        <%= autor.nombre %>
+                    </td>
+
+                    <td>
+                        <%= autor.nacionalidad || '' %>
+                    </td>
+
+                    <td>
+
+                        <a
+                            href="/library/admin/autores/<%= autor.autor_id %>/editar"
+                        >
+                            Editar
+                        </a>
+
+                        <br><br>
+
+                        <form
+                            action="/library/admin/autores/<%= autor.autor_id %>/eliminar"
+                            method="POST"
+                            onsubmit="return confirm('Â¿Seguro que deseas eliminar este autor?');"
+                        >
+
+                            <button type="submit">
+                                Eliminar
+                            </button>
+
+                        </form>
+
+                    </td>
+
+                </tr>
+
+            <% }) %>
+
+        </tbody>
+
+    </table>
+
+    <hr>
+
+    <p>
+        <a href="/library/admin">
+            Volver al panel de administraciÃ³n
+        </a>
+    </p>
+
+</body>
+
+</html>

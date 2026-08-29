@@ -6,21 +6,22 @@
 const express = require('express');
 
 const {
+    requiereSesion
+} = require('../middleware/auth');
+
+const {
     obtenerCatalogo,
     buscarLibros,
     obtenerDetalleLibro,
-    obtenerConceptosLibro
+    obtenerConceptosLibro,
+    obtenerImagenesLibro
 } = require('../services/catalogService');
-
-const {
-    requiereSesion
-} = require('../middleware/auth');
 
 const router = express.Router();
 
 
 // =========================================================
-// MOSTRAR CATALOGO
+// CATALOGO
 // =========================================================
 
 router.get(
@@ -39,42 +40,37 @@ router.get(
 
             if (busqueda) {
 
-                libros =
-                    await buscarLibros(busqueda);
+                libros = await buscarLibros(
+                    busqueda
+                );
 
             } else {
 
-                libros =
-                    await obtenerCatalogo();
+                libros = await obtenerCatalogo();
 
             }
 
             res.render(
                 'catalogo',
                 {
-                    usuario: req.session.usuario,
-                    libros: libros,
-                    busqueda: busqueda,
-                    mensaje: null
+                    usuario:
+                        req.session.usuario,
+
+                    libros,
+
+                    busqueda
                 }
             );
 
         } catch (error) {
 
             console.error(
-                'Error al consultar catalogo:',
-                error.message
+                'Error al cargar catalogo:',
+                error
             );
 
-            res.status(500).render(
-                'catalogo',
-                {
-                    usuario: req.session.usuario,
-                    libros: [],
-                    busqueda: '',
-                    mensaje:
-                        'No fue posible consultar el catálogo.'
-                }
+            res.status(500).send(
+                'Error al cargar el catálogo.'
             );
 
         }
@@ -84,7 +80,7 @@ router.get(
 
 
 // =========================================================
-// DETALLE DE LIBRO
+// DETALLE DEL LIBRO
 // =========================================================
 
 router.get(
@@ -94,8 +90,9 @@ router.get(
 
         try {
 
-            const libroId =
-                Number(req.params.id);
+            const libroId = Number(
+                req.params.id
+            );
 
             if (
                 !Number.isInteger(libroId) ||
@@ -103,13 +100,15 @@ router.get(
             ) {
 
                 return res.status(400).send(
-                    'Identificador de libro inválido.'
+                    'ID de libro no válido.'
                 );
 
             }
 
             const libro =
-                await obtenerDetalleLibro(libroId);
+                await obtenerDetalleLibro(
+                    libroId
+                );
 
             if (!libro) {
 
@@ -120,7 +119,14 @@ router.get(
             }
 
             const conceptos =
-                await obtenerConceptosLibro(libroId);
+                await obtenerConceptosLibro(
+                    libroId
+                );
+
+            const imagenes =
+                await obtenerImagenesLibro(
+                    libroId
+                );
 
             res.render(
                 'detalleLibro',
@@ -128,23 +134,23 @@ router.get(
                     usuario:
                         req.session.usuario,
 
-                    libro:
-                        libro,
+                    libro,
 
-                    conceptos:
-                        conceptos
+                    conceptos,
+
+                    imagenes
                 }
             );
 
         } catch (error) {
 
             console.error(
-                'Error al consultar detalle del libro:',
-                error.message
+                'Error al obtener detalle del libro:',
+                error
             );
 
             res.status(500).send(
-                'No fue posible consultar el libro.'
+                'Error al obtener el detalle del libro.'
             );
 
         }

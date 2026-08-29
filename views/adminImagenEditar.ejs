@@ -1,0 +1,132 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Editar imagen</title>
+
+    <link rel="stylesheet" href="/library/styles.css">
+
+</head>
+
+<body>
+
+    <h1>Editar imagen</h1>
+
+    <p>
+        Administrador:
+        <strong><%= usuario.nombre %></strong>
+    </p>
+
+    <p>
+        <a href="/library/admin/imagenes">
+            Volver a imÃ¡genes
+        </a>
+    </p>
+
+    <hr>
+
+    <h2>Archivo actual</h2>
+
+    <p>
+        <strong>
+            <%= imagen.nombre_archivo %>
+        </strong>
+    </p>
+
+    <p>
+
+        <img
+            src="/library/<%= imagen.ruta_relativa %>"
+            alt="<%= imagen.texto_alt || imagen.nombre_archivo %>"
+            width="150"
+        >
+
+    </p>
+
+    <hr>
+
+    <form
+        action="/library/admin/imagenes/<%= imagen.imagen_id %>/editar"
+        method="POST"
+    >
+
+        <p>
+
+            <label for="libro_id">
+                Libro:
+            </label>
+
+            <br>
+
+            <select
+                id="libro_id"
+                name="libro_id"
+                required
+            >
+
+                <% libros.forEach(libro => { %>
+
+                    <option
+                        value="<%= libro.libro_id %>"
+                        <%= imagen.libro_id === libro.libro_id ? 'selected' : '' %>
+                    >
+                        <%= libro.titulo %>
+                    </option>
+
+                <% }) %>
+
+            </select>
+
+        </p>
+
+        <p>
+
+            <label for="texto_alt">
+                Texto alternativo:
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="texto_alt"
+                name="texto_alt"
+                maxlength="255"
+                value="<%= imagen.texto_alt || '' %>"
+            >
+
+        </p>
+
+        <p>
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    name="es_portada"
+                    <%= imagen.es_portada ? 'checked' : '' %>
+                >
+
+                Usar como portada del libro
+
+            </label>
+
+        </p>
+
+        <button type="submit">
+            Guardar cambios
+        </button>
+
+    </form>
+
+</body>
+
+</html>

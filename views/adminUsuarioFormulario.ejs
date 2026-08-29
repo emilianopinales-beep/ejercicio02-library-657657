@@ -1,0 +1,170 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        <%= usuarioEditar ? 'Editar usuario' : 'Nuevo usuario' %>
+    </title>
+
+    <link rel="stylesheet" href="/library/styles.css">
+
+</head>
+
+<body>
+
+    <h1>
+        <%= usuarioEditar ? 'Editar usuario' : 'Nuevo usuario' %>
+    </h1>
+
+    <p>
+        Administrador:
+        <strong><%= usuario.nombre %></strong>
+    </p>
+
+    <p>
+        <a href="/library/admin/usuarios">
+            Volver a usuarios
+        </a>
+    </p>
+
+    <hr>
+
+    <form
+        action="<%=
+            usuarioEditar
+                ? '/library/admin/usuarios/' + usuarioEditar.usuario_id + '/editar'
+                : '/library/admin/usuarios/nuevo'
+        %>"
+        method="POST"
+    >
+
+        <p>
+
+            <label for="nombre">
+                Nombre:
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                maxlength="120"
+                value="<%= usuarioEditar ? usuarioEditar.nombre : '' %>"
+                required
+            >
+
+        </p>
+
+        <p>
+
+            <label for="email">
+                Correo:
+            </label>
+
+            <br>
+
+            <input
+                type="email"
+                id="email"
+                name="email"
+                maxlength="150"
+                value="<%= usuarioEditar ? usuarioEditar.email : '' %>"
+                required
+            >
+
+        </p>
+
+        <p>
+
+            <label for="password">
+                ContraseÃ±a:
+            </label>
+
+            <br>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                <%= usuarioEditar ? '' : 'required' %>
+            >
+
+        </p>
+
+        <% if (usuarioEditar) { %>
+
+            <p>
+                Deja la contraseÃ±a vacÃ­a si no deseas cambiarla.
+            </p>
+
+        <% } %>
+
+        <p>
+
+            <label for="rol">
+                Rol:
+            </label>
+
+            <br>
+
+            <select
+                id="rol"
+                name="rol"
+                required
+            >
+
+                <option
+                    value="usuario"
+                    <%= usuarioEditar && usuarioEditar.rol === 'usuario' ? 'selected' : '' %>
+                >
+                    Usuario
+                </option>
+
+                <option
+                    value="administrador"
+                    <%= usuarioEditar && usuarioEditar.rol === 'administrador' ? 'selected' : '' %>
+                >
+                    Administrador
+                </option>
+
+            </select>
+
+        </p>
+
+        <p>
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    name="activo"
+                    <%= !usuarioEditar || usuarioEditar.activo ? 'checked' : '' %>
+                >
+
+                Usuario activo
+
+            </label>
+
+        </p>
+
+        <button type="submit">
+
+            <%= usuarioEditar ? 'Guardar cambios' : 'Crear usuario' %>
+
+        </button>
+
+    </form>
+
+</body>
+
+</html>

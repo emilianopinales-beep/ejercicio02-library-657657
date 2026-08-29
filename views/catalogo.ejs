@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -9,12 +10,15 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Catálogo de libros</title>
+    <title>CatÃ¡logo de libros</title>
+
+    <link rel="stylesheet" href="/library/styles.css">
+
 </head>
 
 <body>
 
-    <h1>Catálogo de libros</h1>
+    <h1>CatÃ¡logo de libros</h1>
 
     <p>
         Bienvenido,
@@ -26,6 +30,16 @@
         <strong><%= usuario.rol %></strong>
     </p>
 
+    <% if (usuario.rol === 'administrador') { %>
+
+        <p>
+            <a href="/library/admin">
+                Panel de administraciÃ³n
+            </a>
+        </p>
+
+    <% } %>
+
     <hr>
 
     <h2>Buscar libro</h2>
@@ -36,7 +50,7 @@
     >
 
         <label for="busqueda">
-            Título o ISBN:
+            TÃ­tulo o ISBN:
         </label>
 
         <input
@@ -56,42 +70,40 @@
 
     </form>
 
-    <br>
+    <hr>
 
-    <% if (mensaje) { %>
-
-        <p>
-            <strong><%= mensaje %></strong>
-        </p>
-
-    <% } %>
+    <p>
+        Libros encontrados:
+        <strong><%= libros.length %></strong>
+    </p>
 
     <% if (libros.length === 0) { %>
 
-        <p>No se encontraron libros.</p>
+        <p>
+            No se encontraron libros.
+        </p>
 
     <% } else { %>
 
-        <p>
-            Libros encontrados:
-            <strong><%= libros.length %></strong>
-        </p>
-
-        <table border="1" cellpadding="6">
+        <table
+            border="1"
+            cellpadding="6"
+        >
 
             <thead>
 
                 <tr>
+                    <th>Portada</th>
                     <th>ID</th>
                     <th>ISBN</th>
-                    <th>Título</th>
-                    <th>Año</th>
+                    <th>TÃ­tulo</th>
+                    <th>AÃ±o</th>
                     <th>Precio</th>
                     <th>Stock</th>
                     <th>Formato</th>
-                    <th>Categoría</th>
+                    <th>CategorÃ­a</th>
                     <th>Autores</th>
-                    <th>Géneros</th>
+                    <th>GÃ©neros</th>
                     <th>Acciones</th>
                 </tr>
 
@@ -102,6 +114,24 @@
                 <% libros.forEach(libro => { %>
 
                     <tr>
+
+                        <td>
+
+                            <% if (libro.portada) { %>
+
+                                <img
+                                    src="/library/<%= libro.portada %>"
+                                    alt="<%= libro.portada_alt || libro.titulo %>"
+                                    width="70"
+                                >
+
+                            <% } else { %>
+
+                                Sin portada
+
+                            <% } %>
+
+                        </td>
 
                         <td>
                             <%= libro.libro_id %>
@@ -120,7 +150,7 @@
                         </td>
 
                         <td>
-                            $<%= Number(libro.precio).toFixed(2) %>
+                            $<%= libro.precio %>
                         </td>
 
                         <td>
@@ -136,22 +166,26 @@
                         </td>
 
                         <td>
-                            <%= libro.autores %>
+                            <%= libro.autores || '' %>
                         </td>
 
                         <td>
-                            <%= libro.generos %>
+                            <%= libro.generos || '' %>
                         </td>
 
                         <td>
-                            <a href="/library/libro/<%= libro.libro_id %>">
+
+                            <a
+                                href="/library/libro/<%= libro.libro_id %>"
+                            >
                                 Ver detalle
                             </a>
+
                         </td>
 
                     </tr>
 
-                <% }); %>
+                <% }) %>
 
             </tbody>
 
@@ -159,7 +193,7 @@
 
     <% } %>
 
-    <br>
+    <hr>
 
     <form
         action="/library/logout"
@@ -167,7 +201,7 @@
     >
 
         <button type="submit">
-            Cerrar sesión
+            Cerrar sesiÃ³n
         </button>
 
     </form>

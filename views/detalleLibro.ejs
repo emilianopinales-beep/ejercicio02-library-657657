@@ -1,7 +1,8 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -10,6 +11,9 @@
     >
 
     <title>Detalle del libro</title>
+
+    <link rel="stylesheet" href="/library/styles.css">
+
 </head>
 
 <body>
@@ -17,13 +21,61 @@
     <h1>Detalle del libro</h1>
 
     <p>
-        Usuario:
+        Bienvenido,
         <strong><%= usuario.nombre %></strong>
     </p>
 
+    <p>
+        <a href="/library/catalogo">
+            Volver al catÃ¡logo
+        </a>
+    </p>
+
+    <% if (usuario.rol === 'administrador') { %>
+
+        <p>
+            <a href="/library/admin">
+                Panel de administraciÃ³n
+            </a>
+        </p>
+
+    <% } %>
+
     <hr>
 
+
+    <!-- ================================================= -->
+    <!-- PORTADA -->
+    <!-- ================================================= -->
+
     <h2><%= libro.titulo %></h2>
+
+    <% if (libro.portada) { %>
+
+        <p>
+
+            <img
+                src="/library/<%= libro.portada %>"
+                alt="<%= libro.portada_alt || libro.titulo %>"
+                width="200"
+            >
+
+        </p>
+
+    <% } else { %>
+
+        <p>
+            Este libro no tiene portada registrada.
+        </p>
+
+    <% } %>
+
+
+    <!-- ================================================= -->
+    <!-- DATOS DEL LIBRO -->
+    <!-- ================================================= -->
+
+    <h3>InformaciÃ³n del libro</h3>
 
     <p>
         <strong>ISBN:</strong>
@@ -31,13 +83,13 @@
     </p>
 
     <p>
-        <strong>Año de publicación:</strong>
+        <strong>AÃ±o de publicaciÃ³n:</strong>
         <%= libro.anio_publicacion %>
     </p>
 
     <p>
         <strong>Precio:</strong>
-        $<%= Number(libro.precio).toFixed(2) %>
+        $<%= libro.precio %>
     </p>
 
     <p>
@@ -51,21 +103,27 @@
     </p>
 
     <p>
-        <strong>Categoría:</strong>
+        <strong>CategorÃ­a:</strong>
         <%= libro.categoria %>
     </p>
 
     <p>
         <strong>Autores:</strong>
-        <%= libro.autores %>
+        <%= libro.autores || 'Sin autores asociados' %>
     </p>
 
     <p>
-        <strong>Géneros:</strong>
-        <%= libro.generos %>
+        <strong>GÃ©neros:</strong>
+        <%= libro.generos || 'Sin gÃ©neros asociados' %>
     </p>
 
+
     <hr>
+
+
+    <!-- ================================================= -->
+    <!-- CONCEPTOS -->
+    <!-- ================================================= -->
 
     <h2>Conceptos asociados</h2>
 
@@ -79,33 +137,110 @@
 
         <% conceptos.forEach(concepto => { %>
 
-            <h3>
-                <%= concepto.nombre %>
-            </h3>
+            <div>
 
-            <p>
-                <%= concepto.definicion %>
-            </p>
+                <h3>
+                    <%= concepto.nombre %>
+                </h3>
 
-        <% }); %>
+                <p>
+                    <strong>DefiniciÃ³n:</strong>
+                    <%= concepto.definicion %>
+                </p>
+
+                <% if (concepto.referencia) { %>
+
+                    <p>
+                        <strong>Referencia:</strong>
+                        <%= concepto.referencia %>
+                    </p>
+
+                <% } %>
+
+            </div>
+
+            <br>
+
+        <% }) %>
 
     <% } %>
 
+
     <hr>
 
-    <a href="/library/catalogo">
-        Volver al catálogo
-    </a>
 
-    <br><br>
+    <!-- ================================================= -->
+    <!-- GALERIA DE IMAGENES -->
+    <!-- ================================================= -->
+
+    <h2>ImÃ¡genes del libro</h2>
+
+    <% if (imagenes.length === 0) { %>
+
+        <p>
+            Este libro no tiene imÃ¡genes registradas.
+        </p>
+
+    <% } else { %>
+
+        <% imagenes.forEach(imagen => { %>
+
+            <div>
+
+                <img
+                    src="/library/<%= imagen.ruta_relativa %>"
+                    alt="<%= imagen.texto_alt || imagen.nombre_archivo %>"
+                    width="180"
+                >
+
+                <p>
+                    Archivo:
+                    <%= imagen.nombre_archivo %>
+                </p>
+
+                <% if (imagen.es_portada) { %>
+
+                    <p>
+                        <strong>Portada principal</strong>
+                    </p>
+
+                <% } %>
+
+                <% if (imagen.texto_alt) { %>
+
+                    <p>
+                        Texto alternativo:
+                        <%= imagen.texto_alt %>
+                    </p>
+
+                <% } %>
+
+            </div>
+
+            <br>
+
+        <% }) %>
+
+    <% } %>
+
+
+    <hr>
+
+    <p>
+        <a href="/library/catalogo">
+            Volver al catÃ¡logo
+        </a>
+    </p>
 
     <form
         action="/library/logout"
         method="POST"
     >
+
         <button type="submit">
-            Cerrar sesión
+            Cerrar sesiÃ³n
         </button>
+
     </form>
 
 </body>

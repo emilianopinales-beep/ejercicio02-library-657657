@@ -12,6 +12,11 @@ const path = require('path');
 const authRoutes = require('./routes/authRoutes');
 const catalogRoutes = require('./routes/catalogRoutes');
 const adminRoutes = require('./routes/adminRoutes');
+const adminCatalogosRoutes = require('./routes/adminCatalogosRoutes');
+const adminAutoresRoutes = require('./routes/adminAutoresRoutes');
+const adminUsuariosRoutes = require('./routes/adminUsuariosRoutes');
+const adminImagenesRoutes = require('./routes/adminImagenesRoutes');
+const adminRelacionesRoutes = require('./routes/adminRelacionesRoutes');
 
 const app = express();
 
@@ -42,12 +47,17 @@ app.use(
     })
 );
 
+
+// Archivos publicos: CSS, imagenes, etc.
 app.use(
+    BASE_PATH,
     express.static(
         path.join(__dirname, 'public')
     )
 );
 
+
+// Imagenes subidas por el administrador
 app.use(
     BASE_PATH + '/uploads',
     express.static(
@@ -108,6 +118,31 @@ app.use(
 app.use(
     BASE_PATH,
     adminRoutes
+);
+
+app.use(
+    BASE_PATH,
+    adminCatalogosRoutes
+);
+
+app.use(
+    BASE_PATH,
+    adminAutoresRoutes
+);
+
+app.use(
+    BASE_PATH,
+    adminUsuariosRoutes
+);
+
+app.use(
+    BASE_PATH,
+    adminImagenesRoutes
+);
+
+app.use(
+    BASE_PATH,
+    adminRelacionesRoutes
 );
 
 

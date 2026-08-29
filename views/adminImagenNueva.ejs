@@ -1,0 +1,133 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Nueva imagen</title>
+
+    <link rel="stylesheet" href="/library/styles.css">
+
+</head>
+
+<body>
+
+    <h1>Nueva imagen</h1>
+
+    <p>
+        Administrador:
+        <strong><%= usuario.nombre %></strong>
+    </p>
+
+    <p>
+        <a href="/library/admin/imagenes">
+            Volver a imÃ¡genes
+        </a>
+    </p>
+
+    <hr>
+
+    <form
+        action="/library/admin/imagenes/nueva"
+        method="POST"
+        enctype="multipart/form-data"
+    >
+
+        <p>
+
+            <label for="libro_id">
+                Libro:
+            </label>
+
+            <br>
+
+            <select
+                id="libro_id"
+                name="libro_id"
+                required
+            >
+
+                <% libros.forEach(libro => { %>
+
+                    <option value="<%= libro.libro_id %>">
+                        <%= libro.titulo %>
+                    </option>
+
+                <% }) %>
+
+            </select>
+
+        </p>
+
+        <p>
+
+            <label for="imagen">
+                Archivo de imagen:
+            </label>
+
+            <br>
+
+            <input
+                type="file"
+                id="imagen"
+                name="imagen"
+                accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+                required
+            >
+
+        </p>
+
+        <p>
+            Formatos permitidos:
+            JPG, JPEG, PNG y WebP.
+            TamaÃ±o mÃ¡ximo: 5 MB.
+        </p>
+
+        <p>
+
+            <label for="texto_alt">
+                Texto alternativo:
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="texto_alt"
+                name="texto_alt"
+                maxlength="255"
+                placeholder="Ejemplo: Portada del libro"
+            >
+
+        </p>
+
+        <p>
+
+            <label>
+
+                <input
+                    type="checkbox"
+                    name="es_portada"
+                >
+
+                Usar como portada del libro
+
+            </label>
+
+        </p>
+
+        <button type="submit">
+            Subir imagen
+        </button>
+
+    </form>
+
+</body>
+
+</html>

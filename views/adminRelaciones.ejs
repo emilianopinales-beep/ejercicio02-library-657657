@@ -1,0 +1,364 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Relaciones del libro</title>
+
+    <link rel="stylesheet" href="/library/styles.css">
+
+</head>
+
+<body>
+
+    <h1>Relaciones del libro</h1>
+
+    <p>
+        Administrador:
+        <strong><%= usuario.nombre %></strong>
+    </p>
+
+    <p>
+        Libro:
+        <strong><%= libro.titulo %></strong>
+    </p>
+
+    <p>
+        ISBN:
+        <%= libro.isbn %>
+    </p>
+
+    <p>
+        <a href="/library/admin/libros">
+            Volver a libros
+        </a>
+    </p>
+
+    <hr>
+
+
+    <!-- ================================================= -->
+    <!-- AUTORES -->
+    <!-- ================================================= -->
+
+    <h2>Autores</h2>
+
+    <form
+        action="/library/admin/libros/<%= libro.libro_id %>/autores/agregar"
+        method="POST"
+    >
+
+        <label for="autor_id">
+            Agregar autor:
+        </label>
+
+        <select
+            id="autor_id"
+            name="autor_id"
+            required
+        >
+
+            <% autores.forEach(autor => { %>
+
+                <option value="<%= autor.autor_id %>">
+
+                    <%= autor.nombre %>
+
+                    <% if (autor.nacionalidad) { %>
+                        - <%= autor.nacionalidad %>
+                    <% } %>
+
+                </option>
+
+            <% }) %>
+
+        </select>
+
+        <button type="submit">
+            Agregar autor
+        </button>
+
+    </form>
+
+    <h3>Autores asociados</h3>
+
+    <% if (autoresLibro.length === 0) { %>
+
+        <p>
+            Este libro todavÃ­a no tiene autores asociados.
+        </p>
+
+    <% } else { %>
+
+        <ul>
+
+            <% autoresLibro.forEach(autor => { %>
+
+                <li>
+
+                    <%= autor.nombre %>
+
+                    <% if (autor.nacionalidad) { %>
+                        - <%= autor.nacionalidad %>
+                    <% } %>
+
+                    <form
+                        action="/library/admin/libros/<%= libro.libro_id %>/autores/<%= autor.autor_id %>/eliminar"
+                        method="POST"
+                        style="display:inline;"
+                    >
+
+                        <button type="submit">
+                            Quitar
+                        </button>
+
+                    </form>
+
+                </li>
+
+            <% }) %>
+
+        </ul>
+
+    <% } %>
+
+
+    <hr>
+
+
+    <!-- ================================================= -->
+    <!-- GENEROS -->
+    <!-- ================================================= -->
+
+    <h2>GÃ©neros</h2>
+
+    <form
+        action="/library/admin/libros/<%= libro.libro_id %>/generos/agregar"
+        method="POST"
+    >
+
+        <label for="genero_id">
+            Agregar gÃ©nero:
+        </label>
+
+        <select
+            id="genero_id"
+            name="genero_id"
+            required
+        >
+
+            <% generos.forEach(genero => { %>
+
+                <option value="<%= genero.genero_id %>">
+                    <%= genero.nombre %>
+                </option>
+
+            <% }) %>
+
+        </select>
+
+        <button type="submit">
+            Agregar gÃ©nero
+        </button>
+
+    </form>
+
+    <h3>GÃ©neros asociados</h3>
+
+    <% if (generosLibro.length === 0) { %>
+
+        <p>
+            Este libro todavÃ­a no tiene gÃ©neros asociados.
+        </p>
+
+    <% } else { %>
+
+        <ul>
+
+            <% generosLibro.forEach(genero => { %>
+
+                <li>
+
+                    <%= genero.nombre %>
+
+                    <form
+                        action="/library/admin/libros/<%= libro.libro_id %>/generos/<%= genero.genero_id %>/eliminar"
+                        method="POST"
+                        style="display:inline;"
+                    >
+
+                        <button type="submit">
+                            Quitar
+                        </button>
+
+                    </form>
+
+                </li>
+
+            <% }) %>
+
+        </ul>
+
+    <% } %>
+
+
+    <hr>
+
+
+    <!-- ================================================= -->
+    <!-- CONCEPTOS -->
+    <!-- ================================================= -->
+
+    <h2>Conceptos</h2>
+
+    <p>
+        Si el concepto ya estÃ¡ asociado al libro,
+        al guardarlo nuevamente se actualizarÃ¡n
+        su definiciÃ³n y referencia.
+    </p>
+
+    <form
+        action="/library/admin/libros/<%= libro.libro_id %>/conceptos/guardar"
+        method="POST"
+    >
+
+        <p>
+
+            <label for="concepto_id">
+                Concepto:
+            </label>
+
+            <br>
+
+            <select
+                id="concepto_id"
+                name="concepto_id"
+                required
+            >
+
+                <% conceptos.forEach(concepto => { %>
+
+                    <option value="<%= concepto.concepto_id %>">
+                        <%= concepto.nombre %>
+                    </option>
+
+                <% }) %>
+
+            </select>
+
+        </p>
+
+        <p>
+
+            <label for="definicion">
+                DefiniciÃ³n:
+            </label>
+
+            <br>
+
+            <textarea
+                id="definicion"
+                name="definicion"
+                rows="4"
+                cols="50"
+                required
+            ></textarea>
+
+        </p>
+
+        <p>
+
+            <label for="referencia">
+                Referencia:
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="referencia"
+                name="referencia"
+                maxlength="150"
+                placeholder="Ejemplo: CapÃ­tulo 2, pÃ¡gina 15"
+            >
+
+        </p>
+
+        <button type="submit">
+            Guardar concepto
+        </button>
+
+    </form>
+
+    <h3>Conceptos asociados</h3>
+
+    <% if (conceptosLibro.length === 0) { %>
+
+        <p>
+            Este libro todavÃ­a no tiene conceptos asociados.
+        </p>
+
+    <% } else { %>
+
+        <% conceptosLibro.forEach(concepto => { %>
+
+            <div>
+
+                <p>
+                    <strong>
+                        <%= concepto.nombre %>
+                    </strong>
+                </p>
+
+                <p>
+                    DefiniciÃ³n:
+                    <%= concepto.definicion %>
+                </p>
+
+                <% if (concepto.referencia) { %>
+
+                    <p>
+                        Referencia:
+                        <%= concepto.referencia %>
+                    </p>
+
+                <% } %>
+
+                <form
+                    action="/library/admin/libros/<%= libro.libro_id %>/conceptos/<%= concepto.concepto_id %>/eliminar"
+                    method="POST"
+                >
+
+                    <button type="submit">
+                        Quitar concepto
+                    </button>
+
+                </form>
+
+                <br>
+
+            </div>
+
+        <% }) %>
+
+    <% } %>
+
+
+    <hr>
+
+    <p>
+        <a href="/library/admin/libros">
+            Volver a administrar libros
+        </a>
+    </p>
+
+</body>
+
+</html>

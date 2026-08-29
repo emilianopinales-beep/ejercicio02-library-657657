@@ -1,0 +1,80 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        <%= registro ? 'Editar' : 'Nuevo' %>
+        registro
+    </title>
+
+    <link rel="stylesheet" href="/library/styles.css">
+
+</head>
+
+<body>
+
+    <h1>
+        <%= registro ? 'Editar' : 'Nuevo' %>
+        registro de <%= titulo %>
+    </h1>
+
+    <p>
+        Administrador:
+        <strong><%= usuario.nombre %></strong>
+    </p>
+
+    <p>
+        <a href="/library/admin/catalogos/<%= tipo %>">
+            Volver
+        </a>
+    </p>
+
+    <hr>
+
+    <form
+        action="<%=
+            registro
+                ? '/library/admin/catalogos/' + tipo + '/' + registro.id + '/editar'
+                : '/library/admin/catalogos/' + tipo + '/nuevo'
+        %>"
+        method="POST"
+    >
+
+        <p>
+
+            <label for="nombre">
+                Nombre:
+            </label>
+
+            <br>
+
+            <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                maxlength="150"
+                value="<%= registro ? registro.nombre : '' %>"
+                required
+            >
+
+        </p>
+
+        <button type="submit">
+
+            <%= registro ? 'Guardar cambios' : 'Crear registro' %>
+
+        </button>
+
+    </form>
+
+</body>
+
+</html>

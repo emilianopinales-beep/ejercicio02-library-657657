@@ -12,7 +12,10 @@
 
     <title>Detalle del libro</title>
 
-    <link rel="stylesheet" href="/library/styles.css">
+    <link
+        rel="stylesheet"
+        href="/library/styles.css"
+    >
 
 </head>
 
@@ -44,36 +47,40 @@
     <hr>
 
 
-    <!-- ================================================= -->
     <!-- PORTADA -->
-    <!-- ================================================= -->
 
     <h2><%= libro.titulo %></h2>
 
     <% if (libro.portada) { %>
 
-        <p>
+        <div>
 
             <img
                 src="/library/<%= libro.portada %>"
                 alt="<%= libro.portada_alt || libro.titulo %>"
                 width="200"
+                onerror="
+                    this.style.display='none';
+                    this.nextElementSibling.style.display='block';
+                "
             >
 
-        </p>
+            <p style="display:none;">
+                Sin portada disponible.
+            </p>
+
+        </div>
 
     <% } else { %>
 
         <p>
-            Este libro no tiene portada registrada.
+            Sin portada disponible.
         </p>
 
     <% } %>
 
 
-    <!-- ================================================= -->
-    <!-- DATOS DEL LIBRO -->
-    <!-- ================================================= -->
+    <!-- INFORMACION DEL LIBRO -->
 
     <h3>Información del libro</h3>
 
@@ -121,9 +128,7 @@
     <hr>
 
 
-    <!-- ================================================= -->
     <!-- CONCEPTOS -->
-    <!-- ================================================= -->
 
     <h2>Conceptos asociados</h2>
 
@@ -169,9 +174,7 @@
     <hr>
 
 
-    <!-- ================================================= -->
-    <!-- GALERIA DE IMAGENES -->
-    <!-- ================================================= -->
+    <!-- GALERIA -->
 
     <h2>Imágenes del libro</h2>
 
@@ -191,7 +194,15 @@
                     src="/library/<%= imagen.ruta_relativa %>"
                     alt="<%= imagen.texto_alt || imagen.nombre_archivo %>"
                     width="180"
+                    onerror="
+                        this.style.display='none';
+                        this.nextElementSibling.style.display='block';
+                    "
                 >
+
+                <p style="display:none;">
+                    Imagen no disponible.
+                </p>
 
                 <p>
                     Archivo:

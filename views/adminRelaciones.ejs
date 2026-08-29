@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+�<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -92,7 +92,7 @@
     <% if (autoresLibro.length === 0) { %>
 
         <p>
-            Este libro todavÃ­a no tiene autores asociados.
+            Este libro todavía no tiene autores asociados.
         </p>
 
     <% } else { %>
@@ -137,7 +137,7 @@
     <!-- GENEROS -->
     <!-- ================================================= -->
 
-    <h2>GÃ©neros</h2>
+    <h2>Géneros</h2>
 
     <form
         action="/library/admin/libros/<%= libro.libro_id %>/generos/agregar"
@@ -145,7 +145,7 @@
     >
 
         <label for="genero_id">
-            Agregar gÃ©nero:
+            Agregar género:
         </label>
 
         <select
@@ -165,17 +165,17 @@
         </select>
 
         <button type="submit">
-            Agregar gÃ©nero
+            Agregar género
         </button>
 
     </form>
 
-    <h3>GÃ©neros asociados</h3>
+    <h3>Géneros asociados</h3>
 
     <% if (generosLibro.length === 0) { %>
 
         <p>
-            Este libro todavÃ­a no tiene gÃ©neros asociados.
+            Este libro todavía no tiene géneros asociados.
         </p>
 
     <% } else { %>
@@ -219,9 +219,9 @@
     <h2>Conceptos</h2>
 
     <p>
-        Si el concepto ya estÃ¡ asociado al libro,
-        al guardarlo nuevamente se actualizarÃ¡n
-        su definiciÃ³n y referencia.
+        Si el concepto ya está asociado al libro,
+        al guardarlo nuevamente se actualizarán
+        su definición y referencia.
     </p>
 
     <form
@@ -258,7 +258,7 @@
         <p>
 
             <label for="definicion">
-                DefiniciÃ³n:
+                Definición:
             </label>
 
             <br>
@@ -286,7 +286,7 @@
                 id="referencia"
                 name="referencia"
                 maxlength="150"
-                placeholder="Ejemplo: CapÃ­tulo 2, pÃ¡gina 15"
+                placeholder="Ejemplo: Capítulo 2, página 15"
             >
 
         </p>
@@ -302,7 +302,7 @@
     <% if (conceptosLibro.length === 0) { %>
 
         <p>
-            Este libro todavÃ­a no tiene conceptos asociados.
+            Este libro todavía no tiene conceptos asociados.
         </p>
 
     <% } else { %>
@@ -318,7 +318,7 @@
                 </p>
 
                 <p>
-                    DefiniciÃ³n:
+                    Definición:
                     <%= concepto.definicion %>
                 </p>
 

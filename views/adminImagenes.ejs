@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+�<!DOCTYPE html>
 <html lang="es">
 
 <head>
@@ -10,7 +10,7 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Administrar imÃ¡genes</title>
+    <title>Administrar imágenes</title>
 
     <link rel="stylesheet" href="/library/styles.css">
 
@@ -18,7 +18,7 @@
 
 <body>
 
-    <h1>Administrar imÃ¡genes</h1>
+    <h1>Administrar imágenes</h1>
 
     <p>
         Administrador:
@@ -39,7 +39,7 @@
 
     <hr>
 
-    <h2>ImÃ¡genes registradas</h2>
+    <h2>Imágenes registradas</h2>
 
     <table border="1" cellpadding="6">
 
@@ -51,7 +51,7 @@
                 <th>Libro</th>
                 <th>Archivo</th>
                 <th>Tipo</th>
-                <th>TamaÃ±o</th>
+                <th>Tamaño</th>
                 <th>Portada</th>
                 <th>Texto alternativo</th>
                 <th>Acciones</th>
@@ -96,7 +96,7 @@
                     </td>
 
                     <td>
-                        <%= imagen.es_portada ? 'SÃ­' : 'No' %>
+                        <%= imagen.es_portada ? 'Sí' : 'No' %>
                     </td>
 
                     <td>
@@ -116,7 +116,7 @@
                         <form
                             action="/library/admin/imagenes/<%= imagen.imagen_id %>/eliminar"
                             method="POST"
-                            onsubmit="return confirm('Â¿Seguro que deseas eliminar esta imagen?');"
+                            onsubmit="return confirm('¿Seguro que deseas eliminar esta imagen?');"
                         >
 
                             <button type="submit">
@@ -139,7 +139,7 @@
 
     <p>
         <a href="/library/admin">
-            Volver al panel de administraciÃ³n
+            Volver al panel de administración
         </a>
     </p>
 

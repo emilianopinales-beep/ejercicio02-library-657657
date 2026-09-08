@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:tns="http://657657.example.edu/library-classifier/v1"
+  targetNamespace="http://657657.example.edu/library-classifier/v1"
+  name="LibraryClassifierService">
+
+  <types>
+    <xsd:schema targetNamespace="http://657657.example.edu/library-classifier/v1"
+      elementFormDefault="qualified">
+      <xsd:simpleType name="ModeloServicio">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="IaaS"/><xsd:enumeration value="PaaS"/>
+          <xsd:enumeration value="SaaS"/><xsd:enumeration value="FaaS"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:complexType name="Concepto">
+        <xsd:sequence>
+          <xsd:element name="conceptoId" type="xsd:positiveInteger"/>
+          <xsd:element name="nombre" type="xsd:string"/>
+          <xsd:element name="definicion" type="xsd:string"/>
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ObtenerConceptosPendientesRequest"><xsd:complexType><xsd:sequence>
+        <xsd:element name="clasificadorId" type="xsd:positiveInteger"/>
+        <xsd:element name="limite" type="xsd:positiveInteger" minOccurs="0"/>
+      </xsd:sequence></xsd:complexType></xsd:element>
+      <xsd:element name="ObtenerConceptosPendientesResponse"><xsd:complexType><xsd:sequence>
+        <xsd:element name="conceptos" minOccurs="0"><xsd:complexType><xsd:sequence>
+          <xsd:element name="item" type="tns:Concepto" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence></xsd:complexType></xsd:element>
+      </xsd:sequence></xsd:complexType></xsd:element>
+      <xsd:element name="RegistrarClasificacionRequest"><xsd:complexType><xsd:sequence>
+        <xsd:element name="clasificadorId" type="xsd:positiveInteger"/>
+        <xsd:element name="conceptoId" type="xsd:positiveInteger"/>
+        <xsd:element name="modeloServicio" type="tns:ModeloServicio"/>
+        <xsd:element name="confianza" type="xsd:decimal" minOccurs="0"/>
+        <xsd:element name="observaciones" type="xsd:string" minOccurs="0"/>
+      </xsd:sequence></xsd:complexType></xsd:element>
+      <xsd:element name="RegistrarClasificacionResponse"><xsd:complexType><xsd:sequence>
+        <xsd:element name="clasificacionId" type="xsd:positiveInteger"/>
+        <xsd:element name="estado" type="xsd:string"/>
+      </xsd:sequence></xsd:complexType></xsd:element>
+      <xsd:element name="ObtenerProgresoUsuarioRequest" type="tns:ClasificadorRequest"/>
+      <xsd:element name="ObtenerProgresoUsuarioResponse"><xsd:complexType><xsd:sequence>
+        <xsd:element name="total" type="xsd:nonNegativeInteger"/>
+        <xsd:element name="clasificados" type="xsd:nonNegativeInteger"/>
+        <xsd:element name="pendientes" type="xsd:nonNegativeInteger"/>
+      </xsd:sequence></xsd:complexType></xsd:element>
+      <xsd:element name="ObtenerEstadisticasPorModeloRequest" type="tns:ClasificadorRequest"/>
+      <xsd:element name="ObtenerEstadisticasPorModeloResponse"><xsd:complexType><xsd:sequence>
+        <xsd:element name="estadisticas"><xsd:complexType><xsd:sequence>
+          <xsd:element name="IaaS" type="xsd:nonNegativeInteger"/>
+          <xsd:element name="PaaS" type="xsd:nonNegativeInteger"/>
+          <xsd:element name="SaaS" type="xsd:nonNegativeInteger"/>
+          <xsd:element name="FaaS" type="xsd:nonNegativeInteger"/>
+        </xsd:sequence></xsd:complexType></xsd:element>
+      </xsd:sequence></xsd:complexType></xsd:element>
+      <xsd:complexType name="ClasificadorRequest"><xsd:sequence>
+        <xsd:element name="clasificadorId" type="xsd:positiveInteger"/>
+      </xsd:sequence></xsd:complexType>
+    </xsd:schema>
+  </types>
+
+  <message name="ObtenerConceptosPendientesInput"><part name="parameters" element="tns:ObtenerConceptosPendientesRequest"/></message>
+  <message name="ObtenerConceptosPendientesOutput"><part name="parameters" element="tns:ObtenerConceptosPendientesResponse"/></message>
+  <message name="RegistrarClasificacionInput"><part name="parameters" element="tns:RegistrarClasificacionRequest"/></message>
+  <message name="RegistrarClasificacionOutput"><part name="parameters" element="tns:RegistrarClasificacionResponse"/></message>
+  <message name="ObtenerProgresoUsuarioInput"><part name="parameters" element="tns:ObtenerProgresoUsuarioRequest"/></message>
+  <message name="ObtenerProgresoUsuarioOutput"><part name="parameters" element="tns:ObtenerProgresoUsuarioResponse"/></message>
+  <message name="ObtenerEstadisticasPorModeloInput"><part name="parameters" element="tns:ObtenerEstadisticasPorModeloRequest"/></message>
+  <message name="ObtenerEstadisticasPorModeloOutput"><part name="parameters" element="tns:ObtenerEstadisticasPorModeloResponse"/></message>
+
+  <portType name="LibraryClassifierPortType">
+    <operation name="ObtenerConceptosPendientes"><input message="tns:ObtenerConceptosPendientesInput"/><output message="tns:ObtenerConceptosPendientesOutput"/></operation>
+    <operation name="RegistrarClasificacion"><input message="tns:RegistrarClasificacionInput"/><output message="tns:RegistrarClasificacionOutput"/></operation>
+    <operation name="ObtenerProgresoUsuario"><input message="tns:ObtenerProgresoUsuarioInput"/><output message="tns:ObtenerProgresoUsuarioOutput"/></operation>
+    <operation name="ObtenerEstadisticasPorModelo"><input message="tns:ObtenerEstadisticasPorModeloInput"/><output message="tns:ObtenerEstadisticasPorModeloOutput"/></operation>
+  </portType>
+
+  <binding name="LibraryClassifierBinding" type="tns:LibraryClassifierPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="ObtenerConceptosPendientes"><soap:operation soapAction="ObtenerConceptosPendientes"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="RegistrarClasificacion"><soap:operation soapAction="RegistrarClasificacion"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="ObtenerProgresoUsuario"><soap:operation soapAction="ObtenerProgresoUsuario"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+    <operation name="ObtenerEstadisticasPorModelo"><soap:operation soapAction="ObtenerEstadisticasPorModelo"/><input><soap:body use="literal"/></input><output><soap:body use="literal"/></output></operation>
+  </binding>
+
+  <service name="LibraryClassifierService"><port name="LibraryClassifierPort" binding="tns:LibraryClassifierBinding">
+    <soap:address location="http://127.0.0.1:5001/soap"/>
+  </port></service>
+</definitions>
+
